@@ -9,7 +9,6 @@ NEWS = open(os.path.join(here, 'NEWS.txt')).read()
 version = '0.9.dev'
 
 install_requires = [
-    'feedparser',
     'BeautifulSoup<3.1', # http://www.crummy.com/software/BeautifulSoup/3.1-problems.html    
 ]
 

@@ -1,6 +1,6 @@
 # From http://github.com/scyclops/Readable-Feeds/blob/master/readability/hn.py
-#    This file originally written by Nirmal Patel (http://nirmalpatel.com/).
-# License: GPL
+#    Originally written by Nirmal Patel (http://nirmalpatel.com/)
+# License: GPL3
 
 import os
 import sys
@@ -13,7 +13,6 @@ from datetime import datetime
 from pickle import dumps, loads
 import time
 
-import feedparser
 from BeautifulSoup import BeautifulSoup
 
 
