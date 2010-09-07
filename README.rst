@@ -1,8 +1,8 @@
 readability
 ===========
 
-A Python module arc90's readability.js that powers the `readability
-bookmarklet`_::
+A Python module mirroring the algorithm in arc90's ``readability.js`` that
+powers the `readability bookmarklet`_::
 
     >>> import urllib
     >>> import readability
@@ -13,8 +13,8 @@ bookmarklet`_::
 Credits
 -------
 
-Originally implemented as `hn.py`_ by Nirmal Patel; later adapted Andrew Trusty
-in his `Readable Feeds`_ project.
+Originally implemented as `hn.py`_ by Nirmal Patel; later adapted by Andrew
+Trusty in his `Readable Feeds`_ project.
 
 
 .. _`readability bookmarklet`: http://lab.arc90.com/experiments/readability/
