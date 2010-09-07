@@ -18,7 +18,8 @@ Credits
 -------
 
 Originally implemented as `hn.py`_ by Nirmal Patel; later adapted by Andrew
-Trusty in his `Readable Feeds`_ project.
+Trusty in his `Readable Feeds`_ project. readability.py retains the original
+license (**GPL3**) chosen by Nirmal Patel.
 
 
 .. _`readability bookmarklet`: http://lab.arc90.com/experiments/readability/
