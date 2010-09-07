@@ -12,7 +12,7 @@ A Python module arc90's readability.js that powers the readability bookmarklet::
 Credits
 -------
 
-Originally implemented as ``hn.py``_ by Nirmal Patel; later adapted Andrew Trusty
+Originally implemented as `hn.py`_ by Nirmal Patel; later adapted Andrew Trusty
 in his `Readable Feeds`_ project.
 
 .. _`hn.py`: http://nirmalpatel.com/fcgi/hn.py
