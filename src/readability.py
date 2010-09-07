@@ -23,6 +23,10 @@ PUNCTUATION = re.compile("""[!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~]""")
 
 
 def grabContent(link, html):
+    """Return (TITLE, CONTENT)
+    
+    where CONTENT is the readable version of ``html``
+    """
     replaceBrs = re.compile("<br */? *>[ \r\n]*<br */? *>")
     html = re.sub(replaceBrs, "</p><p>", html)
 
@@ -96,8 +100,11 @@ def grabContent(link, html):
     _clean(topParent, "iframe")
 
     _fixLinks(topParent, link)
+    
+    title = soup.find('title').text
+    content = topParent.renderContents().decode('utf-8')
 
-    return topParent.renderContents().decode('utf-8')
+    return title, content
 
 
 def _fixLinks(parent, link):
@@ -135,8 +142,11 @@ def _killDivs(parent):
 
 def main():
     url = sys.argv[1]
-    data = urllib.urlopen(url).read()
-    print grabContent(url, data)
+    html = urllib.urlopen(url).read()
+    title, content = grabContent(url, html)
+    print(title)
+    print('***')
+    print(content)
 
 
 if __name__ == '__main__':

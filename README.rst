@@ -8,7 +8,7 @@ powers the `readability bookmarklet`_::
     >>> import readability
     >>> url = 'http://www.nytimes.com/2010/09/07/health/views/07mind.html'
     >>> html = urllib.urlopen(url).read()
-    >>> print readability.grabContent(url, html)
+    >>> print readability.grabContent(url, html)[0]
 
 Credits
 -------
