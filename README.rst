@@ -1,8 +1,8 @@
 readability
 ===========
 
-A Python module mirroring the algorithm in arc90's ``readability.js`` that
-powers the `readability bookmarklet`_::
+A Python implementation of the algorithm used in arc90's `readability
+bookmarklet`_::
 
     >>> import urllib
     >>> import readability
