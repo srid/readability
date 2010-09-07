@@ -3,6 +3,7 @@
 #    Generic feed and Google App Engine support added by Andrew Trusty (http://andrewtrusty.com/).
 # License: GPL
 
+import sys
 import urllib, re, os, urlparse
 import HTMLParser, feedparser
 from BeautifulSoup import BeautifulSoup
@@ -133,6 +134,10 @@ def killDivs(parent):
                     
 
 def main():
-    url = 'http://www.nytimes.com/2010/09/07/health/views/07mind.html?_r=1&src=me&ref=general'
+    url = sys.argv[1]
     data = urllib.urlopen(url).read()
     print grabContent(url, data)
+
+
+if __name__ == '__main__':
+    main()
