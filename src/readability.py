@@ -43,37 +43,37 @@ def grabContent(link, html):
 
         parent = paragraph.parent
 
-        if (parent not in parents):
+        if parent not in parents:
             parents.append(parent)
             parent.score = 0
 
-            if ("class" in parent):
-                if (NEGATIVE.match(parent["class"])):
+            if "class" in parent:
+                if NEGATIVE.match(parent["class"]):
                     parent.score -= 50
-                if (POSITIVE.match(parent["class"])):
+                if POSITIVE.match(parent["class"]):
                     parent.score += 25
 
-            if ("id" in parent):
-                if (NEGATIVE.match(parent["id"])):
+            if "id" in parent:
+                if NEGATIVE.match(parent["id"]):
                     parent.score -= 50
-                if (POSITIVE.match(parent["id"])):
+                if POSITIVE.match(parent["id"]):
                     parent.score += 25
 
-        if (parent.score == None):
+        if parent.score is None:
             parent.score = 0
 
         innerText = paragraph.renderContents(
             )  # "".join(paragraph.findAll(text=True))
-        if (len(innerText) > 10):
+        if len(innerText) > 10:
             parent.score += 1
 
         parent.score += innerText.count(",")
 
     for parent in parents:
-        if ((not topParent) or (parent.score > topParent.score)):
+        if (not topParent) or (parent.score > topParent.score):
             topParent = parent
 
-    if (not topParent):
+    if not topParent:
         return u""
 
     # REMOVE LINK'D STYLES
@@ -87,8 +87,8 @@ def grabContent(link, html):
 
     # CLEAN STYLES FROM ELEMENTS IN TOP PARENT
     for ele in topParent.findAll(True):
-        del(ele['style'])
-        del(ele['class'])
+        del ele['style']
+        del ele['class']
 
     _killDivs(topParent)
     _clean(topParent, "form")
@@ -102,7 +102,6 @@ def grabContent(link, html):
 
 def _fixLinks(parent, link):
     tags = parent.findAll(True)
-
     for t in tags:
         if "href" in t:
             t["href"] = urlparse.urljoin(link, t["href"])
@@ -112,9 +111,8 @@ def _fixLinks(parent, link):
 
 def _clean(top, tag, minWords=10000):
     tags = top.findAll(tag)
-
     for t in tags:
-        if (t.renderContents().count(" ") < minWords):
+        if t.renderContents().count(" ") < minWords:
             t.extract()
 
 
@@ -129,8 +127,8 @@ def _killDivs(parent):
         pre   = len(d.findAll("pre"))
         code  = len(d.findAll("code"))
 
-        if (d.renderContents().count(",") < 10):
-            if ((pre == 0) and (code == 0)):
+        if d.renderContents().count(",") < 10:
+            if (pre == 0) and (code == 0):
                 if (img > p) or (li > p) or (a > p) or (p == 0) or (embed > 0):
                     d.extract()
 
