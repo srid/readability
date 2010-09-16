@@ -2,6 +2,8 @@
 #    Originally written by Nirmal Patel (http://nirmalpatel.com/)
 # License: GPL3
 
+from __future__ import unicode_literals
+
 import os
 import sys
 import urllib
@@ -20,8 +22,10 @@ NEGATIVE    = re.compile("comment|meta|footer|footnote|foot")
 POSITIVE    = re.compile("post|hentry|entry|content|text|body|article")
 PUNCTUATION = re.compile("""[!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~]""")
 
+# XXX: we should auto-detect the encoding
+DEFAULT_ENCODING = 'latin-1'
 
-def grabContent(link, html):
+def grabContent(link, html, encoding=DEFAULT_ENCODING):
     """Return (TITLE, CONTENT)
     
     where CONTENT is the readable version of ``html``
@@ -72,7 +76,7 @@ def grabContent(link, html):
 
         # Add a point for the paragraph found
         innerText = paragraph.renderContents(
-            )  # "".join(paragraph.findAll(text=True))
+            ).decode(encoding)  # "".join(paragraph.findAll(text=True))
         if len(innerText) > 10:
             parent.score += 1
 
@@ -101,7 +105,7 @@ def grabContent(link, html):
         del ele['style']
         del ele['class']
 
-    _killDivs(topParent)
+    _killDivs(topParent, encoding)
     _clean(topParent, "form")
     _clean(topParent, "object")
     _clean(topParent, "iframe")
@@ -109,7 +113,7 @@ def grabContent(link, html):
     _fixLinks(topParent, link)
     
     title = soup.find('title').text
-    content = topParent.renderContents().decode('utf-8')
+    content = topParent.renderContents().decode(encoding)
 
     return title, content
 
@@ -131,7 +135,7 @@ def _clean(top, tag, minWords=10000):
             t.extract()
 
 
-def _killDivs(parent):
+def _killDivs(parent, encoding):
     divs = parent.findAll("div")
     
     # Gather counts for other typical elements embedded within.
@@ -147,7 +151,7 @@ def _killDivs(parent):
         code  = len(d.findAll("code"))
 
         # If the number of commas is less than 10 (bad sign) ...
-        if d.renderContents().count(",") < 10:
+        if d.renderContents().decode(encoding).count(",") < 10:
             # DEVIATION: XXX: why do this?
             if (pre == 0) and (code == 0):
                 # Add the number of non-paragraph elements is more than
@@ -156,10 +160,10 @@ def _killDivs(parent):
                     d.extract()
 
 
-def readable(url):
+def readable(url, encoding=DEFAULT_ENCODING):
     """Return the readable version of this URL"""
-    html = urllib.urlopen(url).read()
-    title, content = grabContent(url, html)
+    html = urllib.urlopen(url).read().decode(encoding)
+    title, content = grabContent(url, html, encoding)
     return r'''<title>{title}</title>
 <h1>{title}</h1>
 {content}'''.format(title=title, content=content)
@@ -169,12 +173,13 @@ def main():
     import webbrowser
     from tempfile import mkstemp
     from optparse import OptionParser
+    import codecs
     
     usage = "usage: %prog [options] URL1 URL2 ..."
     parser = OptionParser(usage=usage)
-    parser.add_option("-b", "--open-browser",
+    parser.add_option(b"-b", b"--open-browser",
                   action="store_true", dest="open_browser", default=False,
-                  help="show the readable version in a web browser")
+                  help=b"show the readable version in a web browser")
     (options, args) = parser.parse_args()
     
     if not args:
@@ -186,7 +191,7 @@ def main():
         if options.open_browser:
             fd, fn = mkstemp('readability.html')
             os.close(fd)
-            with open(fn, 'w') as f:
+            with codecs.open(fn, 'w', encoding=DEFAULT_ENCODING) as f:
                 f.write(readable_html)
             webbrowser.open('file://' + os.path.abspath(fn))
         else:
