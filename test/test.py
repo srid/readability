@@ -3,8 +3,9 @@ from os import path
 from glob import glob
 import difflib
 import tempfile
+import codecs
 
-from readability import readable
+from readability import readable, DEFAULT_ENCODING
 
 
 def test_fixtures():
@@ -18,9 +19,9 @@ def test_fixtures():
         os.close(_)
         _, expected_html_fn = tempfile.mkstemp('readabilitytest')
         os.close(_)
-        with open(actual_html_fn, 'w') as f:
+        with codecs.open(actual_html_fn, 'w', DEFAULT_ENCODING) as f:
             f.write(actual_html)
-        with open(expected_html_fn, 'w') as f:
+        with codecs.open(expected_html_fn, 'w', DEFAULT_ENCODING) as f:
             f.write(expected_html)
         
         # Verify that there is no 'diff' between the two versions
@@ -40,6 +41,6 @@ def test_fixtures():
     for urlf in glob(path.join(fixtures_dir, '*.url')):
         url = open(urlf).read().strip()
         htmlf = urlf[:-4] + '.html'
-        expected_html = open(htmlf).read()
+        expected_html = open(htmlf).read().decode(DEFAULT_ENCODING)
         
         yield path.basename(urlf), test_fixture, url, expected_html
