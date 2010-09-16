@@ -23,9 +23,10 @@ readability.py is not released yet. To install the development version::
 Credits
 -------
 
-Originally implemented as `hn.py`_ by Nirmal Patel; later adapted by Andrew
-Trusty in his `Readable Feeds`_ project. readability.py retains the original
-license (**GPL3**) chosen by Nirmal Patel.
+``readability.py`` adds several bug fixes and features to ``hn.py`` in the
+`Readable Feeds`_ project that adapted the original `hn.py`_ by Nirmal Patel.
+readability.py retains the original license (**GPL3**) chosen by its
+predecessors.
 
 
 .. __: http://code.google.com/p/arc90labs-readability/downloads/detail?name=readability.js&can=2&q=

@@ -1,5 +1,4 @@
-# From http://github.com/scyclops/Readable-Feeds/blob/master/readability/hn.py
-#    Originally written by Nirmal Patel (http://nirmalpatel.com/)
+# Adapted from http://github.com/scyclops/Readable-Feeds/blob/master/readability/hn.py
 # License: GPL3
 
 from __future__ import unicode_literals
