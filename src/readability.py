@@ -156,6 +156,15 @@ def _killDivs(parent):
                     d.extract()
 
 
+def readable(url):
+    """Return the readable version of this URL"""
+    html = urllib.urlopen(url).read()
+    title, content = grabContent(url, html)
+    return r'''<title>{title}</title>
+<h1>{title}</h1>
+{content}'''.format(title=title, content=content)
+
+
 def main():
     import webbrowser
     from tempfile import mkstemp
@@ -173,12 +182,7 @@ def main():
         sys.exit(2)
     
     for url in args:
-        html = urllib.urlopen(url).read()
-        title, content = grabContent(url, html)
-        readable_html = r'''
-<title>{title}</title>
-<h1>{title}</h1>
-{content}'''.format(title=title, content=content)
+        readable_html = readable(url)
         if options.open_browser:
             fd, fn = mkstemp('readability.html')
             os.close(fd)
@@ -187,7 +191,7 @@ def main():
             webbrowser.open('file://' + os.path.abspath(fn))
         else:
             print(readable_html)
-
+ 
 
 if __name__ == '__main__':
     main()
