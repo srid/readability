@@ -3,7 +3,7 @@ init:
 	bin/buildout
 
 test:
-	bin/py.test -x -v test
+	bin/py.test -x -v test/test.py
 
 
 .PHONY: init test
