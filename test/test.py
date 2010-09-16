@@ -13,7 +13,7 @@ def test_fixtures():
         
         actual_html = readable(url)
         
-        # Write the HTML for late diagnosis
+        # Write the HTML for later diagnosis
         _, actual_html_fn = tempfile.mkstemp('readabilitytest')
         os.close(_)
         _, expected_html_fn = tempfile.mkstemp('readabilitytest')
@@ -23,6 +23,7 @@ def test_fixtures():
         with open(expected_html_fn, 'w') as f:
             f.write(expected_html)
         
+        # Verify that there is no 'diff' between the two versions
         diff = list(difflib.context_diff(
             actual_html.splitlines(), expected_html.splitlines()))
         diff_string = '\n'.join(diff)
