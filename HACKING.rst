@@ -1,6 +1,8 @@
 Development setup
 =================
 
+::
+
   $ make init
   $ make test
 
