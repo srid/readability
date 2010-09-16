@@ -12,6 +12,10 @@ bookmarklet`_::
 
 .. WARNING:: The above API **may change** before release.
 
+To directly open the readable version of a URL in the web browser::
+
+    $ readability -b http://blog.doughellmann.com/2007/04/pymotw-linecache.html
+
 readability.py is not released yet. To install the development version::
 
     $ pip install -e git://github.com/srid/readability.git#egg=readability

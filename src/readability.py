@@ -157,12 +157,32 @@ def _killDivs(parent):
 
 
 def main():
-    url = sys.argv[1]
-    html = urllib.urlopen(url).read()
-    title, content = grabContent(url, html)
-    print('<title>{0}</title>'.format(title))
-    print('<h1>{0}</h1>'.format(title))
-    print(content)
+    import webbrowser
+    from tempfile import mkstemp
+    from optparse import OptionParser
+    
+    usage = "usage: %prog [options] URL1 URL2 ..."
+    parser = OptionParser(usage=usage)
+    parser.add_option("-b", "--open-browser",
+                  action="store_true", dest="open_browser", default=False,
+                  help="show the readable version in a web browser")
+    (options, args) = parser.parse_args()
+    
+    for url in args:
+        html = urllib.urlopen(url).read()
+        title, content = grabContent(url, html)
+        readable_html = r'''
+<title>{title}</title>
+<h1>{title}</h1>
+{content}'''.format(title=title, content=content)
+        if options.open_browser:
+            fd, fn = mkstemp('readability')
+            os.close(fd)
+            with open(fn, 'w') as f:
+                f.write(readable_html)
+            webbrowser.open('file://' + os.path.abspath(fn))
+        else:
+            print(readable_html)
 
 
 if __name__ == '__main__':
