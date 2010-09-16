@@ -180,7 +180,7 @@ def main():
 <h1>{title}</h1>
 {content}'''.format(title=title, content=content)
         if options.open_browser:
-            fd, fn = mkstemp('readability')
+            fd, fn = mkstemp('readability.html')
             os.close(fd)
             with open(fn, 'w') as f:
                 f.write(readable_html)
