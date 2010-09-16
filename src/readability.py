@@ -160,8 +160,8 @@ def main():
     url = sys.argv[1]
     html = urllib.urlopen(url).read()
     title, content = grabContent(url, html)
-    print(title)
-    print('***')
+    print('<title>{0}</title>'.format(title))
+    print('<h1>{0}</h1>'.format(title))
     print(content)
 
 

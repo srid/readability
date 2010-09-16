@@ -1,7 +1,7 @@
 readability
 ===========
 
-A Python implementation of the algorithm used in arc90's `readability
+A Python implementation of the algorithm__ used in arc90's `readability
 bookmarklet`_::
 
     >>> import urllib
@@ -22,6 +22,7 @@ Trusty in his `Readable Feeds`_ project. readability.py retains the original
 license (**GPL3**) chosen by Nirmal Patel.
 
 
+.. __: http://code.google.com/p/arc90labs-readability/downloads/detail?name=readability.js&can=2&q=
 .. _`readability bookmarklet`: http://lab.arc90.com/experiments/readability/
 .. _`hn.py`: http://nirmalpatel.com/fcgi/hn.py
 .. _`Readable Feeds`: http://github.com/scyclops/Readable-Feeds
