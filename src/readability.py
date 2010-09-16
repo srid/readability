@@ -168,6 +168,10 @@ def main():
                   help="show the readable version in a web browser")
     (options, args) = parser.parse_args()
     
+    if not args:
+        print(parser.format_help())
+        sys.exit(2)
+    
     for url in args:
         html = urllib.urlopen(url).read()
         title, content = grabContent(url, html)
