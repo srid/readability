@@ -26,6 +26,7 @@ def grabContent(link, html):
     
     where CONTENT is the readable version of ``html``
     """
+    # Replace all doubled-up <BR> tags with <P> tags, and (TODO) remove fonts.
     replaceBrs = re.compile("<br */? *>[ \r\n]*<br */? *>")
     html = re.sub(replaceBrs, "</p><p>", html)
 
@@ -41,6 +42,8 @@ def grabContent(link, html):
     allParagraphs = soup.findAll("p")
     topParent = None
 
+    # Study all the paragraphs and find the chunk that has the best score.
+    # A score is determined by things like: Number of <p>'s, commas, special classes, etc.
     parents = []
     for paragraph in allParagraphs:
 
@@ -50,12 +53,14 @@ def grabContent(link, html):
             parents.append(parent)
             parent.score = 0
 
+            # Look for a special classname
             if "class" in parent:
                 if NEGATIVE.match(parent["class"]):
                     parent.score -= 50
                 if POSITIVE.match(parent["class"]):
                     parent.score += 25
 
+            # Look for a special ID
             if "id" in parent:
                 if NEGATIVE.match(parent["id"]):
                     parent.score -= 50
@@ -65,13 +70,16 @@ def grabContent(link, html):
         if parent.score is None:
             parent.score = 0
 
+        # Add a point for the paragraph found
         innerText = paragraph.renderContents(
             )  # "".join(paragraph.findAll(text=True))
         if len(innerText) > 10:
             parent.score += 1
 
+        # Add points for any commas within this paragraph
         parent.score += innerText.count(",")
 
+    # Assignment from index for performance. See http://www.peachpit.com/articles/article.aspx?p=31567&seqNum=5 
     for parent in parents:
         if (not topParent) or (parent.score > topParent.score):
             topParent = parent
@@ -79,12 +87,12 @@ def grabContent(link, html):
     if not topParent:
         return u""
 
-    # REMOVE LINK'D STYLES
+    # REMOVES ALL STYLESHEETS ...
     styleLinks = soup.findAll("link", attrs={"type": "text/css"})
     for s in styleLinks:
         s.extract()
 
-    # REMOVE ON PAGE STYLES
+    # Remove all style tags in head
     for s in soup.findAll("style"):
         s.extract()
 
@@ -118,12 +126,17 @@ def _fixLinks(parent, link):
 def _clean(top, tag, minWords=10000):
     tags = top.findAll(tag)
     for t in tags:
+        # If the text content isn't laden with words, remove the child
         if t.renderContents().count(" ") < minWords:
             t.extract()
 
 
 def _killDivs(parent):
     divs = parent.findAll("div")
+    
+    # Gather counts for other typical elements embedded within.
+    # Traverse backwards so we can remove nodes at the same time without
+    # effectiving the traversal.
     for d in divs:
         p     = len(d.findAll("p"))
         img   = len(d.findAll("img"))
@@ -133,8 +146,12 @@ def _killDivs(parent):
         pre   = len(d.findAll("pre"))
         code  = len(d.findAll("code"))
 
+        # If the number of commas is less than 10 (bad sign) ...
         if d.renderContents().count(",") < 10:
+            # DEVIATION: XXX: why do this?
             if (pre == 0) and (code == 0):
+                # Add the number of non-paragraph elements is more than
+                # paragraphs or other ominous signs
                 if (img > p) or (li > p) or (a > p) or (p == 0) or (embed > 0):
                     d.extract()
 
