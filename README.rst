@@ -10,6 +10,8 @@ bookmarklet`_::
     >>> html = urllib.urlopen(url).read()
     >>> print readability.grabContent(url, html)[0]
 
+.. WARNING:: The above API **may change** before release.
+
 readability.py is not released yet. To install the development version::
 
     $ pip install -e git://github.com/srid/readability.git#egg=readability
