@@ -121,9 +121,9 @@ def grabContent(link, html, encoding=DEFAULT_ENCODING):
 def _fixLinks(parent, link):
     tags = parent.findAll(True)
     for t in tags:
-        if "href" in t:
+        if t.attrMap and "href" in t.attrMap:
             t["href"] = urlparse.urljoin(link, t["href"])
-        if "src" in t:
+        if t.attrMap and "src" in t.attrMap:
             t["src"] = urlparse.urljoin(link, t["src"])
 
 
