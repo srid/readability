@@ -1,10 +1,10 @@
 Development setup
 =================
 
-::
+Install fabric and run::
 
-  $ make init
-  $ make test
+  $ fab init
+  $ fab test
 
 Release HOWTO
 =============

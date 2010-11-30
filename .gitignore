@@ -1,9 +1,10 @@
 *.pyc
 
-.installed.cfg
+# virtualenv
+.Python
 bin
-develop-eggs
-parts
+lib
+include
 
 *.egg-info
 

@@ -1,0 +1,3 @@
+[submodule "fablib"]
+	path = fablib
+	url = git://github.com/srid/fablib.git
