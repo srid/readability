@@ -9,10 +9,10 @@ from readability import readable, DEFAULT_ENCODING
 
 
 def test_fixtures():
-    def test_fixture(url, expected_html):
+    def test_fixture(url, original_html, expected_html):
         print('url=%s' % url)
         
-        actual_html = readable(url)
+        actual_html = readable(url, original_html)
         
         # Write the HTML for later diagnosis
         _, actual_html_fn = tempfile.mkstemp('readabilitytest')
@@ -40,7 +40,9 @@ def test_fixtures():
     fixtures_dir = path.join(path.dirname(__file__), 'fixtures')
     for urlf in glob(path.join(fixtures_dir, '*.url')):
         url = open(urlf).read().strip()
+        orightmlf = urlf[:-4] + '.orig.html'
         htmlf = urlf[:-4] + '.html'
+        original_html = open(orightmlf).read().decode(DEFAULT_ENCODING)
         expected_html = open(htmlf).read().decode(DEFAULT_ENCODING)
         
-        yield path.basename(urlf), test_fixture, url, expected_html
+        yield path.basename(urlf), test_fixture, url, original_html, expected_html

@@ -159,9 +159,8 @@ def _killDivs(parent, encoding):
                     d.extract()
 
 
-def readable(url, encoding=DEFAULT_ENCODING):
-    """Return the readable version of this URL"""
-    html = urllib.urlopen(url).read().decode(encoding)
+def readable(url, html, encoding=DEFAULT_ENCODING):
+    """Return the readable version of this URL/HTML"""
     title, content = grabContent(url, html, encoding)
     return r'''<title>{title}</title>
 <h1>{title}</h1>
@@ -186,7 +185,8 @@ def main():
         sys.exit(2)
     
     for url in args:
-        readable_html = readable(url)
+        html = urllib.urlopen(url).read().decode(DEFAULT_ENCODING)
+        readable_html = readable(url, html)
         if options.open_browser:
             fd, fn = mkstemp('readability.html')
             os.close(fd)
