@@ -1,10 +1,15 @@
 Development setup
 =================
 
+Ensure that git submodules are present::
+
+    $ git submodule init && git submodule update
+
 Install fabric and run::
 
   $ fab init
   $ fab test
+  $ bin/readability
 
 Release HOWTO
 =============
