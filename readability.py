@@ -9,10 +9,6 @@ import urllib
 import urlparse
 import re
 import HTMLParser
-import rfc822
-from datetime import datetime
-from pickle import dumps, loads
-import time
 
 from BeautifulSoup import BeautifulSoup
 
@@ -20,6 +16,15 @@ from BeautifulSoup import BeautifulSoup
 NEGATIVE    = re.compile("comment|meta|footer|footnote|foot")
 POSITIVE    = re.compile("post|hentry|entry|content|text|body|article")
 PUNCTUATION = re.compile("""[!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~]""")
+
+
+class CannotDecodeHTML(Exception):
+    def __init__(self, m):
+        self.message = m
+
+    def __str__(self):
+        return "Error decoding HTML: %s" % (self.message,)
+
 
 # XXX: we should auto-detect the encoding
 DEFAULT_ENCODING = 'latin-1'
@@ -36,7 +41,7 @@ def grabContent(link, html, encoding=DEFAULT_ENCODING):
     try:
         soup = BeautifulSoup(html)
     except HTMLParser.HTMLParseError:
-        return u""
+        raise CannotDecodeHTML('BeautifulSoup parse error')
 
     # REMOVE SCRIPTS
     for s in soup.findAll("script"):
@@ -88,7 +93,7 @@ def grabContent(link, html, encoding=DEFAULT_ENCODING):
             topParent = parent
 
     if not topParent:
-        return u""
+        raise CannotDecodeHTML("no topParent")
 
     # REMOVES ALL STYLESHEETS ...
     styleLinks = soup.findAll("link", attrs={"type": "text/css"})
