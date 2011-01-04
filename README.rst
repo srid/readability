@@ -26,11 +26,12 @@ Old algorithm
 Unfortunately this project, like others, uses an older version of the
 readability algorithm, Viz.
 
-`Matt <http://blog.interstellr.com/readability-in-python-using-lxml>`_: *[...]
-the readability.js file that can be downloaded from the "downloads" section of
-the Google Code project is a year and a half old and only 8.9KB (about 250 loc),
-while the trunk version (presumably similar to what's used in the bookmarklet)
-has expanded to a whopping 73.5KB and 1825 loc.*
+`Matt
+<http://blog.interstellr.com/readability-in-python-using-lxml#comment_6488354>`_:
+*[...]  the readability.js file that can be downloaded from the "downloads"
+section of the Google Code project is a year and a half old and only 8.9KB
+(about 250 loc), while the trunk version (presumably similar to what's used in
+the bookmarklet) has expanded to a whopping 73.5KB and 1825 loc.*
 
 Ideally, we should port this project to use the same algorithm as the
 bookmarklet.
