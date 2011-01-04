@@ -19,7 +19,7 @@ PUNCTUATION = re.compile("""[!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~]""")
 
 
 # TODO: have sub-classes for specific exceptions
-class Error(Exception):
+class ReadabilityError(Exception):
     """Base class for all readability related exceptions"""
 
 
@@ -38,7 +38,7 @@ def grabContent(link, html, encoding=DEFAULT_ENCODING):
     try:
         soup = BeautifulSoup(html)
     except HTMLParser.HTMLParseError as e:
-        raise Error('BeautifulSoup parse error: %s' % e)
+        raise ReadabilityError('BeautifulSoup parse error: %s' % e)
 
     # REMOVE SCRIPTS
     for s in soup.findAll("script"):
@@ -90,7 +90,7 @@ def grabContent(link, html, encoding=DEFAULT_ENCODING):
             topParent = parent
 
     if not topParent:
-        raise Error("no topParent")
+        raise ReadabilityError("no topParent")
 
     # REMOVES ALL STYLESHEETS ...
     styleLinks = soup.findAll("link", attrs={"type": "text/css"})
