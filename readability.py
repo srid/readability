@@ -19,8 +19,11 @@ PUNCTUATION = re.compile("""[!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~]""")
 
 
 class CannotDecodeHTML(Exception):
+    def __init__(self, m):
+        self.message = m
+
     def __str__(self):
-        return "Error decoding HTML"
+        return "Error decoding HTML: %s" % (self.message,)
 
 
 # XXX: we should auto-detect the encoding
@@ -38,7 +41,7 @@ def grabContent(link, html, encoding=DEFAULT_ENCODING):
     try:
         soup = BeautifulSoup(html)
     except HTMLParser.HTMLParseError:
-        raise CannotDecodeHTML()
+        raise CannotDecodeHTML('BeautifulSoup parse error')
 
     # REMOVE SCRIPTS
     for s in soup.findAll("script"):
@@ -90,7 +93,7 @@ def grabContent(link, html, encoding=DEFAULT_ENCODING):
             topParent = parent
 
     if not topParent:
-        raise CannotDecodeHTML()
+        raise CannotDecodeHTML("no topParent")
 
     # REMOVES ALL STYLESHEETS ...
     styleLinks = soup.findAll("link", attrs={"type": "text/css"})
